@@ -1,4 +1,4 @@
-package com.akshay;
+package com.akshay.cource_generator;
 
 import java.util.HashMap;
 import java.util.HashSet;
