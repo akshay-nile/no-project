@@ -22,8 +22,7 @@ export class MultiselectComponent implements OnInit {
   }
 
   get selected(): string[] {
-    let alphas = this.dropdowns.controls.map(dd => dd.value.alphabet);
-    return alphas.concat(this.dropdowns.controls.map(dd => dd.value.number));
+    return this.dropdowns.controls.map(dd => dd.value.alphabet);
   }
 
   ngOnInit(): void {
@@ -37,14 +36,13 @@ export class MultiselectComponent implements OnInit {
   }
 
   getAvailableAlphabets(selfIndex: number): string[] {
-    let ignoreList = this.selected.filter((a, i) => a && i != selfIndex);
+    const ignoreList = this.selected.filter((a, i) => a && i != selfIndex);
     return this.alphabets.filter(a => !ignoreList.includes(a));
   }
 
   addNewDropdown(): void {
     this.dropdowns.push(this.formBuilder.group({
-      alphabet: this.formBuilder.control(''),
-      number: this.formBuilder.control('')
+      alphabet: this.formBuilder.control('')
     }));
   }
 
