@@ -1,0 +1,29 @@
+<h2>Select Alphabets</h2>
+
+<form [formGroup]="formGroup">
+    <div *ngFor="let dd of dropdowns.controls; index as i" formArrayName="dropdowns" class="select-alpha">
+        <ng-container [formGroupName]="i">
+            <select formControlName="alphabet">
+                <option *ngFor="let a of getAvailableAlphabets(i)" [value]="a">
+                    {{a}}
+                </option>
+            </select>
+            <select formControlName="number">
+                <option *ngFor="let n of [0,1,2,3,4,5,6,7,8,9]" [value]="n">
+                    {{n}}
+                </option>
+            </select>
+        </ng-container>
+        <button (click)="removeDropdownAt(i)" class="remove-btn">Remove</button>
+        <span *ngIf="(dd.value.alphabet + dd.value.number).length == 2">
+            {{dd.value.alphabet + dd.value.number}}
+        </span>
+    </div>
+    <button (click)="addNewDropdown()" class="add-new-btn"
+        [disabled]="dropdowns.length >= alphabets.length || selected.includes('')">
+        Add New
+    </button>
+</form>
+
+<hr>
+<span>{{selected | json}}</span>
