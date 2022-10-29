@@ -1,21 +1,18 @@
-<h2>Select Alphabets</h2>
+<div class="text-center">
+    <form [formGroup]="formGroup">
+        <div *ngFor="let dd of dropdowns.controls; index as i" formArrayName="dropdowns" class="select-alpha">
+            <ng-container [formGroupName]="i">
+                <p-multiSelect [options]="getAvailableAlphabets(i)" formControlName="alphabet" [showToggleAll]="false"
+                    [showClear]="true" [showHeader]="false" [maxSelectedLabels]="0"
+                    [style]="{margin: '0.5em', width:'18vw'}" [selectedItemsLabel]="'{0} alphabets selected'"
+                    defaultLabel="Select Alphabets" (ngModelChange)="selectionChanged($event, i)"></p-multiSelect>
+            </ng-container>
+            <button (click)="removeDropdownAt(i)" class="btn btn-danger mx-2">Remove</button>
+        </div>
+        <button (click)="addNewDropdown()" class="btn btn-success my-3"
+            [disabled]="disableAddNew">Add New</button>
+    </form>
 
-<form [formGroup]="formGroup">
-    <div *ngFor="let dd of dropdowns.controls; index as i" formArrayName="dropdowns" class="select-alpha">
-        <ng-container [formGroupName]="i">
-            <select formControlName="alphabet">
-                <option *ngFor="let a of getAvailableAlphabets(i)" [value]="a">
-                    {{a}}
-                </option>
-            </select>
-        </ng-container>
-        <button (click)="removeDropdownAt(i)" class="remove-btn">Remove</button>
-    </div>
-    <button (click)="addNewDropdown()" class="add-new-btn"
-        [disabled]="dropdowns.length >= alphabets.length || selected.includes('')">
-        Add New
-    </button>
-</form>
-
-<hr>
-<span>{{selected | json}}</span>
+    <hr>
+    <span class="text-monospace">{{selected | json}}</span>
+</div>

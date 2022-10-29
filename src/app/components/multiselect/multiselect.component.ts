@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { AppService } from 'src/app/services/app.service';
 
@@ -11,6 +11,7 @@ export class MultiselectComponent implements OnInit {
 
   formGroup!: FormGroup;
   alphabets: string[] = [];
+  disableAddNew: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,7 +22,7 @@ export class MultiselectComponent implements OnInit {
     return this.formGroup.get('dropdowns') as FormArray;
   }
 
-  get selected(): string[] {
+  get selected(): any[] {
     return this.dropdowns.controls.map(dd => dd.value.alphabet);
   }
 
@@ -36,18 +37,25 @@ export class MultiselectComponent implements OnInit {
   }
 
   getAvailableAlphabets(selfIndex: number): string[] {
-    const ignoreList = this.selected.filter((a, i) => a && i != selfIndex);
+    const ignoreList = this.selected.filter((a, i) => a && i != selfIndex).reduce((acc, a) => acc.concat(a), [] as string[]);
     return this.alphabets.filter(a => !ignoreList.includes(a));
   }
 
   addNewDropdown(): void {
     this.dropdowns.push(this.formBuilder.group({
-      alphabet: this.formBuilder.control('')
+      alphabet: this.formBuilder.control([])
     }));
+    this.disableAddNew = true;
   }
 
   removeDropdownAt(i: number): void {
     this.dropdowns.removeAt(i);
   }
 
+  selectionChanged(event: any, i: number): void {
+    if (event === null) {
+      (this.formGroup.get('dropdowns')?.value as Array<any>)[i].alphabet = [];
+    } 
+    
+  }
 }
