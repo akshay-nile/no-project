@@ -5,15 +5,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AlphabetMultiselectionComponent } from './components/alphabet-multiselection/alphabet-multiselection.component';
 import { InterviewManagementComponent } from './components/interview-management/interview-management.component';
-import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { PrimengModule } from './primeng.module';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MultiselectComponent,
-    InterviewManagementComponent
+    AlphabetMultiselectionComponent,
+    InterviewManagementComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
