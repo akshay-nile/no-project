@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
-import { MultiselectComponent } from './multiselect.component';
+import { AlphabetMultiselectionComponent } from './alphabet-multiselection.component';
 
 describe('MultiselectComponent', () => {
-  let component: MultiselectComponent;
-  let fixture: ComponentFixture<MultiselectComponent>;
+  let component: AlphabetMultiselectionComponent;
+  let fixture: ComponentFixture<AlphabetMultiselectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MultiselectComponent ],
+      declarations: [AlphabetMultiselectionComponent],
       providers: [FormBuilder]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MultiselectComponent);
+    fixture = TestBed.createComponent(AlphabetMultiselectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
