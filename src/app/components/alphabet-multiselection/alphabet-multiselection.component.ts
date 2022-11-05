@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { NavigationStart, Router } from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
 
 @Component({
@@ -13,7 +14,14 @@ export class AlphabetMultiselectionComponent implements OnInit {
   alphabets: string[] = [];
   disableAddButton: boolean = false;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private router: Router) {
+    this.router.events.forEach(event => {
+      if (event instanceof NavigationStart) {
+        // store current state of selections before routing away from this component
+        sessionStorage.setItem('selected', JSON.stringify(this.selected));
+      }
+    });
+  }
 
   get alphabetGroups(): FormArray {
     return this.alphabetForm.get("alphabetGroups") as FormArray;
@@ -27,11 +35,23 @@ export class AlphabetMultiselectionComponent implements OnInit {
     this.appService.getAlphabets().subscribe(alphabets => this.alphabets = alphabets);
     this.alphabetForm = new FormGroup({ 'alphabetGroups': new FormArray([]) });
     this.alphabetForm.get('alphabetGroups')?.statusChanges.subscribe(_ => this.enableOrDisableAddButton());
-    this.addNewDropdown();
+
+    // restore old state of selections after routing back to this component
+    const oldSelected = sessionStorage.getItem('selected');
+    if (oldSelected) {
+      (JSON.parse(oldSelected) as any[]).forEach(group => {
+        this.addNewDropdown().get('alphabetGroup')?.setValue(group);
+      });
+      sessionStorage.removeItem('selected');
+    } else {
+      this.addNewDropdown();
+    }
   }
 
-  addNewDropdown(): void {
-    this.alphabetGroups.push(new FormGroup({ alphabetGroup: new FormControl([]) }));
+  addNewDropdown(): FormGroup {
+    const alphabetGroup = new FormGroup({ alphabetGroup: new FormControl([]) })
+    this.alphabetGroups.push(alphabetGroup);
+    return alphabetGroup;
   }
 
   removeDropdownAt(removeIndex: number): void {

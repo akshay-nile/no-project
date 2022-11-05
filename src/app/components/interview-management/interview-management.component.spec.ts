@@ -8,9 +8,8 @@ describe('InterviewManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InterviewManagementComponent ]
-    })
-    .compileComponents();
+      declarations: [InterviewManagementComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +20,11 @@ describe('InterviewManagementComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should rotate', () => {
+    const spy = spyOn(component, 'rotate').and.callThrough();
+    component.rotate();
+    expect(component.rotate).toHaveBeenCalled();
   });
 });

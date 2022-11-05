@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AlphabetMultiselectionComponent } from './alphabet-multiselection.component';
 
@@ -10,9 +11,9 @@ describe('MultiselectComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AlphabetMultiselectionComponent],
+      imports: [RouterTestingModule],
       providers: [FormBuilder]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -32,14 +33,27 @@ describe('MultiselectComponent', () => {
   });
 
   it('should addNewDropdown', () => {
-    const comp = spyOn(component, 'addNewDropdown').and.callThrough();
+    const spy = spyOn(component, 'addNewDropdown').and.callThrough();
     component.addNewDropdown();
-    expect(comp).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should removeDropdownAt for the given index', () => {
-    const comp = spyOn(component, 'removeDropdownAt').and.callThrough();
+    const spy = spyOn(component, 'removeDropdownAt').and.callThrough();
     component.removeDropdownAt(0);
-    expect(comp).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should clearDropdownAt for the given index', () => {
+    const spy = spyOn(component, 'clearDropdownAt').and.callThrough();
+    component.clearDropdownAt(0);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should restore old selections from sessionStorage', () => {
+    const spy = spyOn(component, 'ngOnInit').and.callThrough();
+    sessionStorage.setItem('selected', "[[]]");
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 });
