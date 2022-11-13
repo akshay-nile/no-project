@@ -1,3 +1,7 @@
-.active-route {
+.active-route:not(:focus) {
     border-bottom: 2px solid skyblue;
+}
+
+.active-route:focus {
+    border-collapse: collapse;
 }
