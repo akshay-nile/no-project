@@ -5,3 +5,9 @@
 .active-route:focus {
     border-collapse: collapse;
 }
+
+@media(max-width: 576px) {
+    button.p-button-lg {
+        font-size: small;
+    }
+}

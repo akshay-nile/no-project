@@ -73,6 +73,7 @@
                 "fonts": true
               },
               "outputHashing": "all",
+              "baseHref": "/no-project/",
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
