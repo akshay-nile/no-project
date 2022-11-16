@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UtilityService } from 'src/app/services/utility.service';
 
 import { AlphabetMultiselectionComponent } from './alphabet-multiselection.component';
 
@@ -12,7 +13,7 @@ describe('MultiselectComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AlphabetMultiselectionComponent],
       imports: [RouterTestingModule],
-      providers: [FormBuilder]
+      providers: [FormBuilder, UtilityService]
     }).compileComponents();
   });
 
@@ -50,9 +51,11 @@ describe('MultiselectComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should restore old selections from sessionStorage', () => {
+  it('should restore old selections from UtilityService', () => {
+    const utilityService = TestBed.inject(UtilityService);
+    utilityService.states.set(component.selectionState, [[]]);
+
     const spy = spyOn(component, 'ngOnInit').and.callThrough();
-    sessionStorage.setItem('selected', "[[]]");
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });

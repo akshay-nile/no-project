@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NavigationStart, Router } from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-alphabet-multiselection',
@@ -14,11 +15,17 @@ export class AlphabetMultiselectionComponent implements OnInit {
   alphabets: string[] = [];
   disableAddButton: boolean = false;
 
-  constructor(private appService: AppService, private router: Router) {
+  selectionState = this.constructor.name + 'selectionState';
+
+  constructor(
+    private appService: AppService,
+    private utilityService: UtilityService,
+    private router: Router
+  ) {
     this.router.events.forEach(event => {
       if (event instanceof NavigationStart) {
         // store current state of selections before routing away from this component
-        sessionStorage.setItem('selected', JSON.stringify(this.selected));
+        this.utilityService.states.set(this.selectionState, this.selected);
       }
     });
   }
@@ -37,12 +44,11 @@ export class AlphabetMultiselectionComponent implements OnInit {
     this.alphabetForm.get('alphabetGroups')?.statusChanges.subscribe(_ => this.enableOrDisableAddButton());
 
     // restore old state of selections after routing back to this component
-    const oldSelected = sessionStorage.getItem('selected');
-    if (oldSelected) {
-      (JSON.parse(oldSelected) as any[]).forEach(group => {
-        this.addNewDropdown().get('alphabetGroup')?.setValue(group);
+    if (this.utilityService.states.has(this.selectionState)) {
+      this.utilityService.states.get(this.selectionState).forEach((group: any) => {
+        this.addNewDropdown().get('alphabetGroup')?.setValue(group)
       });
-      sessionStorage.removeItem('selected');
+      this.utilityService.states.delete(this.selectionState);
     } else {
       this.addNewDropdown();
     }
@@ -70,7 +76,7 @@ export class AlphabetMultiselectionComponent implements OnInit {
     return this.alphabets.filter(alphabet => !selectedAlphabets.includes(alphabet));
   }
 
-  enableOrDisableAddButton() {
+  enableOrDisableAddButton(): void {
     const alphabetsExausted = this.getAvailableAlphabets(-1).length == 0;
     const hasEmtpyGroup = this.selected.some(group => group.length == 0);
     this.disableAddButton = alphabetsExausted || hasEmtpyGroup;
