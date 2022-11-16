@@ -25,4 +25,4 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx ng build
-    - run: npx ng test
+    - run: npx ng test --browsers ChromeHeadless
