@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +14,8 @@ describe('MultiselectComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AlphabetMultiselectionComponent],
       imports: [RouterTestingModule],
-      providers: [FormBuilder, UtilityService]
+      providers: [FormBuilder, UtilityService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

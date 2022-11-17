@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InterviewManagementComponent } from './interview-management.component';
@@ -8,7 +9,8 @@ describe('InterviewManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InterviewManagementComponent]
+      declarations: [InterviewManagementComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
