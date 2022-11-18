@@ -26,4 +26,4 @@ jobs:
     - run: npm install
     - run: npx ng build
     - run: npx ng test --watch false --browsers ChromeHeadless
-    - run: chmod 111 deploy.sh; ./deploy.sh
+    - run: chmod 777 deploy.sh; ./deploy.sh
