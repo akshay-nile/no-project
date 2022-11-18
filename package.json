@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "preinstall": "npx npm-force-resolutions"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -38,8 +37,5 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.7.2"
-  },
-  "resolutions": {
-    "loader-utils": "3.2.1"
   }
 }
