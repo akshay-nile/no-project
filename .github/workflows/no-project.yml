@@ -10,7 +10,7 @@ on:
     types: ['closed']
     branches: ['master']
 jobs:
-  build --> test --> deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
