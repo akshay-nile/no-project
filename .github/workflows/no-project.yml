@@ -5,14 +5,10 @@ name: No-Project CI/CD
 
 on:
   push:
-    branches:
-      - master
+    branches: ['master']
   pull_request:
-    types:
-      - closed
-    branches:
-      - master
-
+    types: ['closed']
+    branches: ['master']
 jobs:
   build --> test --> deploy:
     runs-on: ubuntu-latest
