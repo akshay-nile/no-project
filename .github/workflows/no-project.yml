@@ -3,8 +3,8 @@
 
 name: No-Project CI/CD
 
-on: ['push', 'merge']
-branches: ['master']
+on: [push, merge]
+  branches: ['master']
 
 jobs:
   build --> test --> deploy:
