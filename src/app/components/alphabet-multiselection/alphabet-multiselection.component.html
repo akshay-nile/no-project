@@ -4,7 +4,7 @@
     <form [formGroup]="alphabetForm" class="form-group">
         <div *ngFor="let alphaGroup of alphabetGroups.controls; index as i" class="row align-items-center my-3"
             formArrayName="alphabetGroups">
-            <div class="col col-md-4 offset-md-4 col-sm-6 offset-sm-3 col-8 offset-2" [formGroupName]="i">
+            <div class="col col-md-4 offset-md-3 col-sm-6 offset-sm-2 col-8 offset-1" [formGroupName]="i">
                 <p-multiSelect formControlName="alphabetGroup" [options]="getAvailableAlphabets(i)" [showHeader]="false"
                     [showClear]="true" [maxSelectedLabels]="0" [selectedItemsLabel]="'{0} alphabets selected'"
                     [defaultLabel]="'Select Alphabets'" [style]="{width: '100%', border:'1px solid black'}"
@@ -19,7 +19,7 @@
     </form>
 
     <div class="row justify-content-center my-2">
-        <div class="col col-1 offset-md-5 offset-sm-7 offset-9">
+        <div class="col col-1 offset-md-3 offset-sm-5 offset-7">
             <button #addBtn pButton icon="pi pi-plus" class="p-button-rounded p-button-success"
                 [disabled]="disableAddButton" (click)="addNewDropdown()"></button>
         </div>
