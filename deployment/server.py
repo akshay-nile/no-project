@@ -3,7 +3,7 @@ from flask import Flask, Response, render_template, request
 
 app = Flask(__name__)
 
-BUILD_PATH = 'dist\\no-project'
+BUILD_PATH = '..\\dist\\no-project'
 MIME_TYPES = {'html': 'html', 'css': 'css', 'js': 'javascript', 'svg': 'svg', 'txt': 'text'}
 
 
