@@ -4,7 +4,7 @@
 name: No-Project CI/CD
 
 on: ['push', 'merge']
-  branches: [ "master" ]
+branches: ['master']
 
 jobs:
   build --> test --> deploy:
