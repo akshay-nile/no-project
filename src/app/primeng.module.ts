@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button'
+import { ChipModule } from 'primeng/chip';
 
 const modules = [
   CommonModule,
   MultiSelectModule,
-  ButtonModule
+  ButtonModule,
+  ChipModule
 ]
 
 @NgModule({

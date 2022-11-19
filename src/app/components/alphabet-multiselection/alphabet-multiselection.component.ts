@@ -14,6 +14,7 @@ export class AlphabetMultiselectionComponent implements OnInit {
   alphabetForm!: FormGroup;
   alphabets: string[] = [];
   disableAddButton: boolean = false;
+  panelOpenIndex: number = -1;
 
   selectionState = this.constructor.name + 'selectionState';
 
