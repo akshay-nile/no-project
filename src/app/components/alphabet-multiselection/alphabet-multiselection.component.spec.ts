@@ -53,6 +53,12 @@ describe('MultiselectComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should call through setDropdownFocusAndHighlightText', () => {
+    const spy = spyOn(component, 'setDropdownFocusAndHighlightText').and.callThrough();
+    component.setDropdownFocusAndHighlightText(0, false);
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should restore old selections from UtilityService', () => {
     const utilityService = TestBed.inject(UtilityService);
     utilityService.states.set(component.selectionState, [[]]);
