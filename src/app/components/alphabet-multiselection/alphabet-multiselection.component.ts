@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NavigationStart, Router } from '@angular/router';
+import { MultiSelect } from 'primeng/multiselect';
 import { AppService } from 'src/app/services/app.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -11,12 +12,21 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class AlphabetMultiselectionComponent implements OnInit {
 
+  @ViewChildren('dropdowns') dropdowns = new QueryList<MultiSelect>();
+
   alphabetForm!: FormGroup;
   alphabets: string[] = [];
   disableAddButton: boolean = false;
-  panelOpenIndex: number = -1;
 
-  selectionState = this.constructor.name + 'selectionState';
+  highlightGroup = { index: -1, event: 'NONE' };
+  eventClasses: any = {
+    'NONE': 'bg-primary text-white',
+    'EDIT': 'bg-warning text-dark',
+    'DELETE': 'bg-danger text-white',
+    'HOVER': 'bg-primary text-warning'
+  };
+
+  readonly selectionState = this.constructor.name + 'selectionState';
 
   constructor(
     private appService: AppService,
@@ -81,5 +91,11 @@ export class AlphabetMultiselectionComponent implements OnInit {
     const alphabetsExausted = this.getAvailableAlphabets(-1).length == 0;
     const hasEmtpyGroup = this.selected.some(group => group.length == 0);
     this.disableAddButton = alphabetsExausted || hasEmtpyGroup;
+  }
+
+  setDropdownFocusAndHighlightText(index: number, focused: boolean) {
+    const dropdown = this.dropdowns.get(index);
+    dropdown && (dropdown.focus = focused);
+    this.highlightGroup = focused ? { index, event: 'HOVER' } : { index: -1, event: 'NONE' };
   }
 }
