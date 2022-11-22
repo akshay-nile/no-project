@@ -11,7 +11,7 @@ The app will automatically reload if you change any of the source files.<br>
 ## Production deployment
 
 Run `ng build` and then execute `deployment/deploy.sh` script.<br>
-This will deploy the build to and can be verified `https://akshaynile.pythonanywhere.com/no-project`.<br>
+This will deploy the build to and can be verified [`https://akshaynile.pythonanywhere.com/no-project`](https://akshaynile.pythonanywhere.com/no-project).<br>
 
 
 ## CI-CD pipeline
