@@ -26,7 +26,7 @@ export class AlphabetMultiselectionComponent implements OnInit {
     'HOVER': 'bg-primary text-warning'
   };
 
-  readonly selectionState = this.constructor.name + 'selectionState';
+  readonly selectionState = this.constructor.name + '.selectionState';
 
   constructor(
     private appService: AppService,

@@ -4,11 +4,12 @@
 }
 
 .active-route:focus {
-    border-collapse: collapse;
+    border-bottom: 2px solid white;
 }
 
-@media(max-width: 576px) {
-    button.p-button-lg {
-        font-size: small;
+@media(max-width: 768px) {
+    .active-route:not(:focus) {
+        border: 2px solid #6d28d9;
+        border-radius: 0.5em;
     }
 }

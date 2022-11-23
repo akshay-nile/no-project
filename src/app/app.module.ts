@@ -9,13 +9,15 @@ import { AlphabetMultiselectionComponent } from './components/alphabet-multisele
 import { InterviewManagementComponent } from './components/interview-management/interview-management.component';
 import { PrimengModule } from './primeng.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlphabetMultiselectionComponent,
     InterviewManagementComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    DebounceDemoComponent
   ],
   imports: [
     BrowserModule,
