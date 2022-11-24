@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-5">
     <div class="d-flex flex-column justify-content-center align-items-center w-100">
         <div class="p-input-icon-left p-input-icon-right">
             <i [class]="typing ? 'pi pi-search-plus' : 'pi pi-search'"></i>
@@ -6,7 +6,7 @@
             <i *ngIf="searching" class="pi pi-spin pi-spinner"></i>
         </div>
 
-        <ul class="list-group my-4">
+        <ul class="list-group my-5">
             <li *ngFor="let apiCall of apiCalls" class="list-group-item font-monospace"
                 [pTooltip]="'Completed in ' + apiCall.delay + 'ms'">{{apiCall.query}}
             </li>

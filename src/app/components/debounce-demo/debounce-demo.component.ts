@@ -41,6 +41,7 @@ export class DebounceDemoComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.searchBox.nativeElement.value = this.searchQuery;
+    this.searchBox.nativeElement.focus();
   }
 
   debouncedSearch(query: string): void {
