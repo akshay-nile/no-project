@@ -20,18 +20,19 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.groups = this.velocityService.getGroups();
+    
     // re-store backup after routing-in to this component, else init with defaults
     if (this.utilityService.stateExists(this)) {
-      this.utilityService.restoreAndClearState(this, ['groups', 'interviewSlots']);
+      this.utilityService.restoreAndClearState(this, ['interviewSlots']);
     } else {
-      this.groups = this.velocityService.getGroups();
       this.populateInterviewSlots();
     }
   }
 
   ngOnDestroy(): void {
     // store backup before routing-out of this component
-    this.utilityService.storeState(this, ['groups', 'interviewSlots']);
+    this.utilityService.storeState(this, ['interviewSlots']);
   }
 
   populateInterviewSlots(): void {
