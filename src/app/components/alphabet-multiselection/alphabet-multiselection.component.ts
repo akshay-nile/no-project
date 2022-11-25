@@ -1,6 +1,5 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { NavigationStart, Router } from '@angular/router';
 import { MultiSelect } from 'primeng/multiselect';
 import { AppService } from 'src/app/services/app.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -10,7 +9,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './alphabet-multiselection.component.html',
   styleUrls: ['./alphabet-multiselection.component.scss']
 })
-export class AlphabetMultiselectionComponent implements OnInit {
+export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
 
   @ViewChildren('dropdowns') dropdowns = new QueryList<MultiSelect>();
 
@@ -28,16 +27,8 @@ export class AlphabetMultiselectionComponent implements OnInit {
 
   constructor(
     private appService: AppService,
-    private utilityService: UtilityService,
-    private router: Router
-  ) {
-    this.router.events.forEach(event => {
-      if (event instanceof NavigationStart) {
-        // store current state of selections before routing away from this component
-        this.utilityService.storeState(this, ['selected']);
-      }
-    });
-  }
+    private utilityService: UtilityService
+  ) { }
 
   get alphabetGroups(): FormArray {
     return this.alphabetForm.get("alphabetGroups") as FormArray;
@@ -48,19 +39,24 @@ export class AlphabetMultiselectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appService.getAlphabets().subscribe(alphabets => this.alphabets = alphabets);
     this.alphabetForm = new FormGroup({ 'alphabetGroups': new FormArray([]) });
-    this.alphabetForm.get('alphabetGroups')?.statusChanges.subscribe(_ => this.enableOrDisableAddButton());
 
-    // restore old state of selections after routing back to this component
+    // restore old state of selections after routing back to this component or else init with defaults
     if (this.utilityService.stateExists(this)) {
-      this.utilityService.getProperty('selected', this).forEach((group: any) => {
-        this.addNewDropdown().get('alphabetGroup')?.setValue(group)
-      });
+      this.alphabets = this.utilityService.getProperty('alphabets', this);
+      const selected = this.utilityService.getProperty('selected', this);
+      selected.forEach((group: any) => this.addNewDropdown().get('alphabetGroup')?.setValue(group));
       this.utilityService.clearState(this);
     } else {
+      this.appService.getAlphabets().subscribe(alphabets => this.alphabets = alphabets);
       this.addNewDropdown();
     }
+
+    this.alphabetForm.get('alphabetGroups')?.statusChanges.subscribe(_ => this.enableOrDisableAddButton());
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.storeState(this, ['alphabets', 'selected']);
   }
 
   addNewDropdown(): FormGroup {

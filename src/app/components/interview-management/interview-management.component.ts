@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Group } from 'src/app/models/Group';
 import { InterviewSlot } from 'src/app/models/InterviewSlot';
+import { UtilityService } from 'src/app/services/utility.service';
 import { VelocityService } from 'src/app/services/velocity.service';
 
 @Component({
@@ -8,16 +9,29 @@ import { VelocityService } from 'src/app/services/velocity.service';
   templateUrl: './interview-management.component.html',
   styleUrls: ['./interview-management.component.scss']
 })
-export class InterviewManagementComponent implements OnInit {
+export class InterviewManagementComponent implements OnInit, OnDestroy {
 
   groups: Group[] = [];
   interviewSlots: InterviewSlot[] = [];
 
-  constructor(private velocityService: VelocityService) { }
+  constructor(
+    private velocityService: VelocityService,
+    private utilityService: UtilityService
+  ) { }
 
   ngOnInit(): void {
-    this.groups = this.velocityService.getGroups();
-    this.populateInterviewSlots();
+    // re-store backup after routing-in to this component, else init with defaults
+    if (this.utilityService.stateExists(this)) {
+      this.utilityService.restoreAndClearState(this, ['groups', 'interviewSlots']);
+    } else {
+      this.groups = this.velocityService.getGroups();
+      this.populateInterviewSlots();
+    }
+  }
+
+  ngOnDestroy(): void {
+    // store backup before routing-out of this component
+    this.utilityService.storeState(this, ['groups', 'interviewSlots']);
   }
 
   populateInterviewSlots(): void {

@@ -61,7 +61,7 @@ describe('MultiselectComponent', () => {
 
   it('should restore old selections from UtilityService', () => {
     const utilityService = TestBed.inject(UtilityService);
-    utilityService.states.set(component.selectionState, [[]]);
+    utilityService.storeState(component, ['selected']);
 
     const spy = spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();

@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
@@ -7,7 +6,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './debounce-demo.component.html',
   styleUrls: ['./debounce-demo.component.scss']
 })
-export class DebounceDemoComponent implements AfterViewInit {
+export class DebounceDemoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('searchBox') searchBox!: ElementRef;
 
@@ -20,18 +19,16 @@ export class DebounceDemoComponent implements AfterViewInit {
   debounceTimer = null as any;
   debounceDelay = 720;
 
-  constructor(private utilityService: UtilityService, private router: Router) {
-    // store backup before routing-out of this component
-    this.router.events.forEach(event => {
-      if (event instanceof NavigationStart) {
-        this.utilityService.storeState(this, ['apiCalls', 'searchQuery']);
-      }
-    });
+  constructor(private utilityService: UtilityService) { }
 
-    // re-store backup after routing-in to this component
+  ngOnInit(): void {
     if (this.utilityService.stateExists(this)) {
       this.utilityService.restoreAndClearState(this, ['apiCalls', 'searchQuery']);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.storeState(this, ['apiCalls', 'searchQuery']);
   }
 
   ngAfterViewInit(): void {
@@ -44,7 +41,7 @@ export class DebounceDemoComponent implements AfterViewInit {
     this.searchQuery = query;
     // debouncing logic below
     if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer); // clear previously set timer
+      clearTimeout(this.debounceTimer); // clear previously set timer if running
     }
     this.debounceTimer = setTimeout(() => { // start a new timer
       this.searchApiService(this.searchQuery); // call actual api after 720ms
