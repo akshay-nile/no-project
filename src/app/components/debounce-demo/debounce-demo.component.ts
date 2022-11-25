@@ -20,22 +20,17 @@ export class DebounceDemoComponent implements AfterViewInit {
   debounceTimer = null as any;
   debounceDelay = 720;
 
-  readonly backupKey = this.constructor.name + '.backup';
-
   constructor(private utilityService: UtilityService, private router: Router) {
     // store backup before routing-out of this component
     this.router.events.forEach(event => {
       if (event instanceof NavigationStart) {
-        this.utilityService.states.set(this.backupKey, this);
+        this.utilityService.storeState(this, ['apiCalls', 'searchQuery']);
       }
     });
 
     // re-store backup after routing-in to this component
-    if (this.utilityService.states.has(this.backupKey)) {
-      const oldThis = this.utilityService.states.get(this.backupKey);
-      this.searchQuery = oldThis.searchQuery;
-      this.apiCalls = oldThis.apiCalls;
-      this.utilityService.states.delete(this.backupKey);
+    if (this.utilityService.stateExists(this)) {
+      this.utilityService.restoreAndClearState(this, ['apiCalls', 'searchQuery']);
     }
   }
 

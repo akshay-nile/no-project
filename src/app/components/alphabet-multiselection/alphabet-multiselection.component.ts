@@ -26,8 +26,6 @@ export class AlphabetMultiselectionComponent implements OnInit {
     'HOVER': 'bg-primary text-warning'
   };
 
-  readonly selectionState = this.constructor.name + '.selectionState';
-
   constructor(
     private appService: AppService,
     private utilityService: UtilityService,
@@ -36,7 +34,7 @@ export class AlphabetMultiselectionComponent implements OnInit {
     this.router.events.forEach(event => {
       if (event instanceof NavigationStart) {
         // store current state of selections before routing away from this component
-        this.utilityService.states.set(this.selectionState, this.selected);
+        this.utilityService.storeState(this, ['selected']);
       }
     });
   }
@@ -55,11 +53,11 @@ export class AlphabetMultiselectionComponent implements OnInit {
     this.alphabetForm.get('alphabetGroups')?.statusChanges.subscribe(_ => this.enableOrDisableAddButton());
 
     // restore old state of selections after routing back to this component
-    if (this.utilityService.states.has(this.selectionState)) {
-      this.utilityService.states.get(this.selectionState).forEach((group: any) => {
+    if (this.utilityService.stateExists(this)) {
+      this.utilityService.getProperty('selected', this).forEach((group: any) => {
         this.addNewDropdown().get('alphabetGroup')?.setValue(group)
       });
-      this.utilityService.states.delete(this.selectionState);
+      this.utilityService.clearState(this);
     } else {
       this.addNewDropdown();
     }
