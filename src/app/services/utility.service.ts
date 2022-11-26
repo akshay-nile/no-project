@@ -10,7 +10,7 @@ export class UtilityService {
   constructor() { }
 
   storeState(component: any, properties: string[], uniqueKey: string | null = null): void {
-    uniqueKey = (uniqueKey ?? component.constructor.name) as string;
+    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
     const state: any = this.states.get(uniqueKey) ?? {};
     properties.forEach(prop => state[prop] = component[prop]);
     this.states.set(uniqueKey, state);
@@ -18,14 +18,14 @@ export class UtilityService {
   }
 
   restoreState(component: any, properties: string[], uniqueKey: string | null = null): void {
-    uniqueKey = (uniqueKey ?? component.constructor.name) as string;
+    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
     const state: any = this.states.get(uniqueKey);
     properties.forEach(prop => component[prop] = state[prop]);
     console.log('restore:', uniqueKey, this.states.get(uniqueKey));
   }
 
   clearState(component: any, uniqueKey: string | null = null): any {
-    uniqueKey = (uniqueKey ?? component.constructor.name) as string;
+    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
     console.log('clear:', uniqueKey, this.states.get(uniqueKey));
     this.states.delete(uniqueKey);
   }
@@ -36,12 +36,12 @@ export class UtilityService {
   }
 
   stateExists(component: any, uniqueKey: string | null = null): boolean {
-    uniqueKey = (uniqueKey ?? component.constructor.name) as string;
+    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
     return this.states.has(uniqueKey);
   }
 
   getProperty(property: string, keySource: any): any {
-    let uniqueKey = (typeof keySource) === 'string' ? keySource : keySource.constructor.name;
+    let uniqueKey = (typeof keySource) === 'string' ? keySource : keySource.backupKey as string; //keySource.constructor.name;
     return this.states.get(uniqueKey)[property];
   }
 }

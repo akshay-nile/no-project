@@ -14,6 +14,8 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
   groups: Group[] = [];
   interviewSlots: InterviewSlot[] = [];
 
+  backupKey = this.constructor.name;
+
   constructor(
     private velocityService: VelocityService,
     private utilityService: UtilityService
@@ -21,7 +23,7 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.groups = this.velocityService.getGroups();
-    
+
     // re-store backup after routing-in to this component, else init with defaults
     if (this.utilityService.stateExists(this)) {
       this.utilityService.restoreAndClearState(this, ['interviewSlots']);
