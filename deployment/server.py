@@ -25,9 +25,9 @@ def no_project(path = 'index.html'):
         return Response(open(filepath, filemode).read(), mimetype=mimetype)
     else:
         request.files.getlist('build')[0].save('no-project.zip')
-        os.system('rm -rf no-project');
-        os.system('unzip no-project.zip');
-        os.remove('no-project.zip');
+        os.system('rm -rf no-project')
+        os.system('unzip no-project.zip')
+        os.remove('no-project.zip')
         return 'success'
     return 'failed'
 
