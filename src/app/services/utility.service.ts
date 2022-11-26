@@ -9,39 +9,38 @@ export class UtilityService {
 
   constructor() { }
 
-  storeState(component: any, properties: string[], uniqueKey: string | null = null): void {
-    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
-    const state: any = this.states.get(uniqueKey) ?? {};
+  storeState(component: any, properties?: string[], backupKey?: string): void {
+    backupKey = backupKey ?? component.backupKey as string;
+    properties = properties ?? component.properties as string[];
+    const state: any = this.states.get(backupKey) ?? {};
     properties.forEach(prop => state[prop] = component[prop]);
-    this.states.set(uniqueKey, state);
-    console.log('store:', uniqueKey, this.states.get(uniqueKey));
+    this.states.set(backupKey, state);
   }
 
-  restoreState(component: any, properties: string[], uniqueKey: string | null = null): void {
-    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
-    const state: any = this.states.get(uniqueKey);
+  restoreState(component: any, properties?: string[], backupKey?: string): void {
+    backupKey = backupKey ?? component.backupKey as string;
+    properties = properties ?? component.properties as string[];
+    const state: any = this.states.get(backupKey);
     properties.forEach(prop => component[prop] = state[prop]);
-    console.log('restore:', uniqueKey, this.states.get(uniqueKey));
   }
 
-  clearState(component: any, uniqueKey: string | null = null): any {
-    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
-    console.log('clear:', uniqueKey, this.states.get(uniqueKey));
-    this.states.delete(uniqueKey);
+  clearState(component: any, backupKey?: string): any {
+    backupKey = backupKey ?? component.backupKey as string;
+    this.states.delete(backupKey);
   }
 
-  restoreAndClearState(component: any, properties: string[], uniqueKey: string | null = null): void {
-    this.restoreState(component, properties, uniqueKey);
-    this.clearState(component, uniqueKey);
+  restoreAndClearState(component: any, properties?: string[], backupKey?: string): void {
+    this.restoreState(component, properties, backupKey);
+    this.clearState(component, backupKey);
   }
 
-  stateExists(component: any, uniqueKey: string | null = null): boolean {
-    uniqueKey = component.backupKey as string; //(uniqueKey ?? component.constructor.name) as string;
-    return this.states.has(uniqueKey);
+  stateExists(component: any, backupKey?: string): boolean {
+    backupKey = backupKey ?? component.backupKey as string;
+    return this.states.has(backupKey);
   }
 
-  getProperty(property: string, keySource: any): any {
-    let uniqueKey = (typeof keySource) === 'string' ? keySource : keySource.backupKey as string; //keySource.constructor.name;
-    return this.states.get(uniqueKey)[property];
+  getProperty(component: any, property: string): any {
+    const backupKey = (typeof component) === 'string' ? component : component.backupKey as string;
+    return this.states.get(backupKey)[property];
   }
 }

@@ -41,16 +41,16 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appService.getAlphabets().subscribe(alphabets => this.alphabets = alphabets);
     this.alphabetForm = new FormGroup({ 'alphabetGroups': new FormArray([]) });
 
-    // restore old state of selections after routing back to this component or else init with defaults
+    // restore old state after routing back to this component or else init with defaults
     if (this.utilityService.stateExists(this)) {
-      this.utilityService.getProperty('selected', this).forEach((group: any) => {
-        this.addNewDropdown().get('alphabetGroup')?.setValue(group)
-      });
+      this.alphabets = this.utilityService.getProperty(this, 'alphabets');
+      const selected = this.utilityService.getProperty(this, 'selected');
+      selected.forEach((group: any) => this.addNewDropdown().get('alphabetGroup')?.setValue(group));
       this.utilityService.clearState(this);
     } else {
+      this.appService.getAlphabets().subscribe(alphabets => this.alphabets = alphabets);
       this.addNewDropdown();
     }
 
@@ -58,7 +58,8 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.utilityService.storeState(this, ['selected']);
+    // store current states before routing away from this component
+    this.utilityService.storeState(this, ['alphabets', 'selected']);
   }
 
   addNewDropdown(): FormGroup {

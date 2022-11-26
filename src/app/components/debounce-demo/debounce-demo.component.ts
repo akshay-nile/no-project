@@ -20,17 +20,18 @@ export class DebounceDemoComponent implements OnInit, OnDestroy, AfterViewInit {
   debounceDelay = 720;
 
   backupKey = 'DebounceDemoComponent';
+  properties = ['apiCalls', 'searchQuery'];
 
   constructor(private utilityService: UtilityService) { }
 
   ngOnInit(): void {
     if (this.utilityService.stateExists(this)) {
-      this.utilityService.restoreAndClearState(this, ['apiCalls', 'searchQuery']);
+      this.utilityService.restoreAndClearState(this);
     }
   }
 
   ngOnDestroy(): void {
-    this.utilityService.storeState(this, ['apiCalls', 'searchQuery']);
+    this.utilityService.storeState(this);
   }
 
   ngAfterViewInit(): void {

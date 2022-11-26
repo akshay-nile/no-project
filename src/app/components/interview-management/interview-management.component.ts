@@ -15,6 +15,7 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
   interviewSlots: InterviewSlot[] = [];
 
   backupKey = 'InterviewManagementComponent';
+  properties = ['groups', 'interviewSlots'];
 
   constructor(
     private velocityService: VelocityService,
@@ -22,19 +23,18 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.groups = this.velocityService.getGroups();
-
     // re-store backup after routing-in to this component, else init with defaults
     if (this.utilityService.stateExists(this)) {
-      this.utilityService.restoreAndClearState(this, ['interviewSlots']);
+      this.utilityService.restoreAndClearState(this);
     } else {
+      this.groups = this.velocityService.getGroups();
       this.populateInterviewSlots();
     }
   }
 
   ngOnDestroy(): void {
     // store backup before routing-out of this component
-    this.utilityService.storeState(this, ['interviewSlots']);
+    this.utilityService.storeState(this);
   }
 
   populateInterviewSlots(): void {
