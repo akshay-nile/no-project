@@ -14,16 +14,19 @@ export class UtilityService {
     const state: any = this.states.get(uniqueKey) ?? {};
     properties.forEach(prop => state[prop] = component[prop]);
     this.states.set(uniqueKey, state);
+    console.log('store:', uniqueKey, this.states.get(uniqueKey));
   }
 
   restoreState(component: any, properties: string[], uniqueKey: string | null = null): void {
     uniqueKey = (uniqueKey ?? component.constructor.name) as string;
     const state: any = this.states.get(uniqueKey);
     properties.forEach(prop => component[prop] = state[prop]);
+    console.log('restore:', uniqueKey, this.states.get(uniqueKey));
   }
 
   clearState(component: any, uniqueKey: string | null = null): any {
     uniqueKey = (uniqueKey ?? component.constructor.name) as string;
+    console.log('clear:', uniqueKey, this.states.get(uniqueKey));
     this.states.delete(uniqueKey);
   }
 
