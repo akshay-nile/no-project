@@ -14,7 +14,7 @@ export class InterviewManagementComponent implements OnInit, OnDestroy {
   groups: Group[] = [];
   interviewSlots: InterviewSlot[] = [];
 
-  backupKey = this.constructor.name;
+  backupKey = 'InterviewManagementComponent';
 
   constructor(
     private velocityService: VelocityService,

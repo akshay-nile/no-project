@@ -19,7 +19,7 @@ export class DebounceDemoComponent implements OnInit, OnDestroy, AfterViewInit {
   debounceTimer = null as any;
   debounceDelay = 720;
 
-  backupKey = this.constructor.name;
+  backupKey = 'DebounceDemoComponent';
 
   constructor(private utilityService: UtilityService) { }
 

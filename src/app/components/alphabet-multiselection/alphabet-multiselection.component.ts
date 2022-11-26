@@ -25,7 +25,7 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
     'HOVER': 'bg-primary text-warning'
   };
 
-  backupKey = this.constructor.name;
+  backupKey = 'AlphabetMultiselectionComponent';
 
   constructor(
     private appService: AppService,
