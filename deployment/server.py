@@ -24,10 +24,13 @@ def no_project(path = 'index.html'):
         filemode, mimetype = ('rb', '*/*') if mimetype is None else ('r', f'text/{mimetype}')
         return Response(open(filepath, filemode).read(), mimetype=mimetype)
     else:
-        request.files.getlist('build')[0].save('no-project.zip')
-        os.system('rm -rf no-project')
-        os.system('unzip no-project.zip')
-        os.remove('no-project.zip')
+        try:
+            request.files.getlist('build')[0].save('no-project.zip')
+            os.system('rm -rf no-project')
+            os.system('unzip no-project.zip')
+            os.remove('no-project.zip')
+        except Exception as error:
+            return str(error)
         return 'success'
     return 'failed'
 
