@@ -5,19 +5,17 @@ name: No-Project CI/CD
 
 on:
   push:
-    branches: ['master']
+    branches: [master]
   pull_request:
-    types: ['closed']
-    branches: ['master']
+    types: [closed]
+    branches: [master]
     
 jobs:
   build-test-deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18.x
         cache: 'npm'
