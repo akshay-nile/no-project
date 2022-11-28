@@ -22,4 +22,9 @@ jobs:
     - run: npm install
     - run: npx ng build
     - run: npx ng test --watch false --browsers ChromeHeadless
-    - run: cd deployment; chmod u+x deploy.sh; ./deploy.sh;
+    - run: | 
+        pushd dist
+        zip -r no-project.zip no-project
+        curl -X POST -F 'build=@no-project.zip' http://akshaynile.pythonanywhere.com/no-project
+        rm no-project.zip
+        popd
