@@ -24,6 +24,8 @@ def no_project(path = 'index.html'):
         filemode, mimetype = ('rb', '*/*') if mimetype is None else ('r', f'text/{mimetype}')
         return Response(open(filepath, filemode).read(), mimetype=mimetype)
     else:
+        if request.headers.get('Password') != r'${{secrets.PASSWORD}}':
+            return 'unauthentic'
         try:
             request.files.getlist('build')[0].save('no-project.zip')
             os.system('rm -rf no-project')
