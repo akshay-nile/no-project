@@ -19,17 +19,18 @@ jobs:
       with:
         node-version: 18.x
         cache: 'npm'
-    - run: |
-        echo 'Install Packages'
-        npm install
-    - run: |
-        echo 'Build Project'
-        npx ng build
-    - run: |
-        echo 'Test Cases & Coverage'
-        npx ng test --watch false --browsers ChromeHeadless
-    - run: |
-        echo 'Deploy Build'
+    
+    - name: 'Install Packages'
+      run: npm install
+    
+    - name: 'Build Project'
+      run: npx ng build
+
+    - name: 'Test Cases & Coverage'
+      run: npx ng test --watch false --browsers ChromeHeadless
+    
+    - name: 'Deploy Build'
+      run: |
         cd dist
         zip -r no-project.zip no-project
         curl -X POST -F 'build=@no-project.zip' -H 'Password: ${{secrets.PASSWORD}}' http://akshaynile.pythonanywhere.com/no-project
