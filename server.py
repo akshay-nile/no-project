@@ -2,6 +2,7 @@ import os
 from mimetypes import guess_type
 from flask import Flask, Response, render_template, request
 
+os.chdir('dist')
 dists = set([d for d in os.listdir() if os.path.isdir(d) and 'index.html' in os.listdir(d)])
 
 app = Flask(__name__)
@@ -27,23 +28,24 @@ def try_angular(not_found):
 
         content = open(filepath, 'rb').read()
         mimetype = guess_type(filepath, strict=True)[0]
-    
+
         return Response(response=content, mimetype=mimetype, status=200)
-    
+
     if request.headers.get('Password') != r'${{secrets.PASSWORD}}':
         return 'unauthentic'
 
     if request.method == 'POST':
         try:
-            request.files.getlist('angular')[0].save(f'{words[0]}.zip')
-            
-            if os.path.exist(words[0]):
+            request.files.getlist('dist')[0].save(f'{words[0]}.zip')
+
+            if os.path.exists(words[0]):
                 os.system(f'rm -rf f{words[0]}')
 
-            os.system('unzip no-project.zip')
-            os.remove('no-project.zip')
+            os.system(f'unzip {words[0]}.zip')
+            os.remove(f'{words[0]}.zip')
 
-            dists.add(words[0])
+            if os.path.isfile(os.path.join(words[0], 'index.html')):
+                dists.add(words[0])
         except Exception as error:
             return str(error)
 
@@ -52,14 +54,14 @@ def try_angular(not_found):
     if request.method == 'DELETE':
         try:
             if os.path.exists(words[0]):
-                os.system(f'rm -rf f{words[0]}')
-            
+                os.system(f'rm -rf {words[0]}')
+
             dists.discard(words[0])
         except Exception as error:
             return str(error)
 
         return 'success'
-    
+
     return Response(f'<h1>405 - METHOD NOT ALLOWED</h1><p>{request.method}</p>', status=405)
 
 
