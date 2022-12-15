@@ -2,36 +2,65 @@ import os
 from mimetypes import guess_type
 from flask import Flask, Response, render_template, request
 
+angular_dists = set(); 
+
 app = Flask(__name__)
 
-BUILD_PATH = 'dist\\no-project'
+@app.errorhandler(404)
+def try_angular(not_found):
+    words = list(filter(lambda word: len(word) > 0, request.path.split('/')))
 
-@app.route('/no-project', methods=['GET','POST'])
-@app.route('/no-project/')
-@app.route('/no-project/<path:path>')
-def no_project(path = 'index.html'):
+    if not words:
+        return Response(f'<h1>404 - NOT FOUND</h1><p>{request.path}</p>', status=404)
+
     if request.method == 'GET':
-        filepath = os.path.join(BUILD_PATH, path)
+        filepath = os.path.join(*words)
 
         if not os.path.isfile(filepath):
-            path = 'index.html'
-            filepath = os.path.join(BUILD_PATH, path)
+            filepath = os.path.join(words[0], 'index.html')
+
+            if not os.path.isfile(filepath):
+                return Response(f'<h1>404 - NOT FOUND</h1><p>{request.path}</p>', status=404)
+
+        if words[0] not in angular_dists:
+            return Response(f'<h1>403 - FORBIDDEN</h1><p>{request.path}</p>', status=403)
 
         content = open(filepath, 'rb').read()
         mimetype = guess_type(filepath, strict=True)[0]
+    
         return Response(response=content, mimetype=mimetype, status=200)
-    else:
-        if request.headers.get('Password') != r'${{secrets.PASSWORD}}':
-            return 'unauthentic'
+    
+    if request.headers.get('Password') != r'${{secrets.PASSWORD}}':
+        return 'unauthentic'
+
+    if request.method == 'POST':
         try:
-            request.files.getlist('build')[0].save('no-project.zip')
-            os.system('rm -rf no-project')
+            request.files.getlist('angular')[0].save(f'{words[0]}.zip')
+            
+            if os.path.exist(words[0]):
+                os.system(f'rm -rf f{words[0]}')
+
             os.system('unzip no-project.zip')
             os.remove('no-project.zip')
+
+            angular_dists.add(words[0])
         except Exception as error:
             return str(error)
+
         return 'success'
-    return 'failed'
+
+    if request.method == 'DELETE':
+        try:
+            if os.path.exist(words[0]):
+                os.system(f'rm -rf f{words[0]}')
+            
+            angular_dists.discard(words[0])
+        except Exception as error:
+            return str(error)
+
+        return 'success'
+    
+    return Response(f'<h1>405 - METHOD NOT ALLOWED</h1><p>{request.method}</p>', status=405)
 
 
 app.run(debug = True)

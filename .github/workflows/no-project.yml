@@ -37,6 +37,6 @@ jobs:
       run: |
         cd dist
         zip -r no-project.zip no-project
-        curl -X POST -F 'build=@no-project.zip' -H 'Password: ${{secrets.PASSWORD}}' http://akshaynile.pythonanywhere.com/no-project
+        curl -X POST -F 'dist=@no-project.zip' -H 'Password: ${{secrets.PASSWORD}}' http://akshaynile.pythonanywhere.com/no-project
         rm no-project.zip
         cd ..
