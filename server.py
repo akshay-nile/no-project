@@ -2,7 +2,7 @@ import os
 from mimetypes import guess_type
 from flask import Flask, Response, render_template, request
 
-angular_dists = set(); 
+dists = set([d for d in os.listdir() if os.path.isdir(d) and 'index.html' in os.listdir(d)])
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def try_angular(not_found):
             if not os.path.isfile(filepath):
                 return Response(f'<h1>404 - NOT FOUND</h1><p>{request.path}</p>', status=404)
 
-        if words[0] not in angular_dists:
+        if words[0] not in dists:
             return Response(f'<h1>403 - FORBIDDEN</h1><p>{request.path}</p>', status=403)
 
         content = open(filepath, 'rb').read()
@@ -43,7 +43,7 @@ def try_angular(not_found):
             os.system('unzip no-project.zip')
             os.remove('no-project.zip')
 
-            angular_dists.add(words[0])
+            dists.add(words[0])
         except Exception as error:
             return str(error)
 
@@ -54,7 +54,7 @@ def try_angular(not_found):
             if os.path.exists(words[0]):
                 os.system(f'rm -rf f{words[0]}')
             
-            angular_dists.discard(words[0])
+            dists.discard(words[0])
         except Exception as error:
             return str(error)
 
