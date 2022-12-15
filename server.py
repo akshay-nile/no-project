@@ -51,7 +51,7 @@ def try_angular(not_found):
 
     if request.method == 'DELETE':
         try:
-            if os.path.exist(words[0]):
+            if os.path.exists(words[0]):
                 os.system(f'rm -rf f{words[0]}')
             
             angular_dists.discard(words[0])
