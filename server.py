@@ -1,9 +1,15 @@
-import os
+import os, shutil
+from zipfile import ZipFile
 from mimetypes import guess_type
 from flask import Flask, Response, render_template, request
 
-os.chdir('dist')
-dists = set([d for d in os.listdir() if os.path.isdir(d) and 'index.html' in os.listdir(d)])
+# <localhost>
+if os.path.isdir('no-project'):
+    shutil.rmtree('no-project')
+shutil.copytree('dist/no-project', 'no-project')
+# </localhost>
+
+dists = set(filter(lambda d: os.path.isfile(os.path.join(d, 'index.html')), os.listdir()))
 
 app = Flask(__name__)
 
@@ -38,10 +44,12 @@ def try_angular(not_found):
         try:
             request.files.getlist('dist')[0].save(f'{words[0]}.zip')
 
-            if os.path.exists(words[0]):
-                os.system(f'rm -rf f{words[0]}')
+            if os.path.isdir(words[0]):
+                shutil.rmtree(words[0])
 
-            os.system(f'unzip {words[0]}.zip')
+            with ZipFile(f'{words[0]}.zip') as file:
+                file.extractall()
+                
             os.remove(f'{words[0]}.zip')
 
             if os.path.isfile(os.path.join(words[0], 'index.html')):
@@ -53,8 +61,8 @@ def try_angular(not_found):
 
     if request.method == 'DELETE':
         try:
-            if os.path.exists(words[0]):
-                os.system(f'rm -rf {words[0]}')
+            if os.path.isdir(words[0]):
+                shutil.rmtree(words[0])
 
             dists.discard(words[0])
         except Exception as error:
@@ -65,4 +73,8 @@ def try_angular(not_found):
     return Response(f'<h1>405 - METHOD NOT ALLOWED</h1><p>{request.method}</p>', status=405)
 
 
+# <localhost>
 app.run(debug = True)
+if os.path.isdir('no-project'):
+    shutil.rmtree('no-project')
+# </localhost>
