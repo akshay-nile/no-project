@@ -15,7 +15,7 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
 
   alphabetForm!: FormGroup;
   alphabets: string[] = [];
-  disableAddButton: boolean = false;
+  disableAddButton: boolean = true;
 
   highlightGroup = { index: -1, event: 'NONE' };
   eventClasses: any = {
@@ -46,6 +46,7 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
     // restore old state after routing back to this component or else init with defaults
     if (this.utilityService.stateExists(this)) {
       this.alphabets = this.utilityService.getProperty(this, 'alphabets');
+      this.disableAddButton = this.utilityService.getProperty(this, 'disableAddButton');
       const selected = this.utilityService.getProperty(this, 'selected');
       selected.forEach((group: any) => this.addNewDropdown().get('alphabetGroup')?.setValue(group));
       this.utilityService.clearState(this);
@@ -59,7 +60,7 @@ export class AlphabetMultiselectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // store current states before routing away from this component
-    this.utilityService.storeState(this, ['alphabets', 'selected']);
+    this.utilityService.storeState(this, ['alphabets', 'selected', 'disableAddButton']);
   }
 
   addNewDropdown(): FormGroup {
