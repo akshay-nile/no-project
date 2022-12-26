@@ -8,8 +8,6 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
 
-  title = 'no-project';
-
   constructor(private primeNgConfig: PrimeNGConfig) { }
 
   ngOnInit(): void {
