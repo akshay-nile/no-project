@@ -1,0 +1,15 @@
+<div class="container mt-5 px-3 d-flex flex-column align-items-center">
+    <div class="font-monospace text-center text-secondary mb-4 fs-2 fw-bold ms-2 printout"
+        style="letter-spacing: 0.3em; z-index: 1;">
+        {{printout}}
+    </div>
+
+    <img #clock src="/assets/clock.jpeg">
+
+    <div class="p-inputgroup mt-5" style="max-width: 400px">
+        <input #inp type="text" pInputText placeholder="Type any word to print..." (keyup.enter)="print.click()"
+            (keyup.esc)="inp.value = ''">
+        <button #print type="button" pButton pRipple icon="pi pi-print" styleClass="p-button-warn"
+            (click)="startPrinting(inp.value.split(' ')[0].trim().toUpperCase())"></button>
+    </div>
+</div>
