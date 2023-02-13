@@ -10,6 +10,7 @@ import { InterviewManagementComponent } from './components/interview-management/
 import { PrimengModule } from './primeng.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.component';
+import { VoiceRecognitionComponent } from './components/voice-recognition/voice-recognition.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.
     AlphabetMultiselectionComponent,
     InterviewManagementComponent,
     PageNotFoundComponent,
-    DebounceDemoComponent
+    DebounceDemoComponent,
+    VoiceRecognitionComponent
   ],
   imports: [
     BrowserModule,

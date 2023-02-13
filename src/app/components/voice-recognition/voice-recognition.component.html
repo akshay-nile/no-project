@@ -1,0 +1,12 @@
+<div class="container mt-5">
+    <div class="d-flex flex-column justify-content-center align-items-center w-100">
+        <h3 class="mx-2" *ngFor="let line of lines">{{line | json}}</h3>
+        <button #mic pButton pRipple type="button" class="btn-lg mt-5" label="{{status | titlecase}}"
+            [icon]="status === 'STOPPED' ? 'pi pi-microphone' : status === 'PROCESSING'? 'pi pi-spin pi-spinner' : 'pi pi-stop-circle'"
+            (click)="status === 'STOPPED' ? startListening() : stopListening()">
+        </button>
+        <p-dropdown styleClass="my-3" [options]="languages" (onChange)="speechRecognition.lang = $event.value" optionLabel="lang"
+            optionValue="code">
+        </p-dropdown>
+    </div>
+</div>

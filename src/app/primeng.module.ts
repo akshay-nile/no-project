@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button'
 import { ChipModule } from 'primeng/chip';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
 
 const modules = [
   CommonModule,
@@ -12,7 +13,8 @@ const modules = [
   ButtonModule,
   ChipModule,
   TooltipModule,
-  InputTextModule
+  InputTextModule,
+  DropdownModule
 ]
 
 @NgModule({
