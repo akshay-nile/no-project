@@ -1,14 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
 
 @Component({
-  selector: 'app-voice-recognition',
-  templateUrl: './voice-recognition.component.html',
-  styleUrls: ['./voice-recognition.component.scss']
+  selector: 'app-voice-recognition-in-frontend',
+  templateUrl: './voice-recognition-in-frontend.component.html',
+  styleUrls: ['./voice-recognition-in-frontend.component.scss']
 })
-export class VoiceRecognitionComponent implements OnInit {
+export class VoiceRecognitionInFrontendComponent implements OnInit {
 
   @ViewChild('mic') mic!: ElementRef;
 
@@ -17,14 +18,8 @@ export class VoiceRecognitionComponent implements OnInit {
   lines: string[] = [];
   status: SpeechRecognitionStatus = 'STOPPED';
 
-  languages = [
-    { lang: 'English', code: 'en-IN' },
-    { lang: 'Hindi', code: 'hi-IN' },
-    { lang: 'Marathi', code: 'mr-IN' },
-    { lang: 'Telugu', code: 'te-IN' },
-    { lang: 'Tamil', code: 'ta-IN' }
-  ];
-
+  languages = environment.languages;
+  
   constructor() { }
 
   ngOnInit(): void {

@@ -23,6 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["recordrtc"],
             "outputPath": "dist/no-project",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -41,7 +42,8 @@
               "node_modules/primeicons/primeicons.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/recordrtc/RecordRTC.min.js"
             ]
           },
           "configurations": {

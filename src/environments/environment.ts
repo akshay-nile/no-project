@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  transcriptorURL: 'http://127.0.0.1:5000/transcript',
+  languages: [
+    { lang: 'English', code: 'en-IN' },
+    { lang: 'Hindi', code: 'hi-IN' },
+    { lang: 'Marathi', code: 'mr-IN' },
+    { lang: 'Telugu', code: 'te-IN' },
+    { lang: 'Tamil', code: 'ta-IN' }
+  ]
 };
 
 /*

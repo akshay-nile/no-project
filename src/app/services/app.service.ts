@@ -1,12 +1,14 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getAlphabets(): Observable<string[]> {
     let alphabets: string[] = [];
@@ -14,6 +16,12 @@ export class AppService {
       alphabets.push(c);
     }
     return of(alphabets);
+  }
+
+  getTranscription(blob: Blob, emailId: string, language: string): Observable<string> {
+    const params = new HttpParams({fromObject: { emailId, language }});
+    return this.http.post<string>(environment.transcriptorURL, blob,
+      { params, responseType: 'text' as 'json' });
   }
 }
 
