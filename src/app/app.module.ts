@@ -13,6 +13,7 @@ import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.
 import { VoiceRecognitionInFrontendComponent } from './components/voice-recognition-in-frontend/voice-recognition-in-frontend.component';
 import { VoiceRecognitionInBackendComponent } from './components/voice-recognition-in-backend/voice-recognition-in-backend.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LiveCallingComponent } from './components/live-calling/live-calling.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     PageNotFoundComponent,
     DebounceDemoComponent,
     VoiceRecognitionInFrontendComponent,
-    VoiceRecognitionInBackendComponent
+    VoiceRecognitionInBackendComponent,
+    LiveCallingComponent
   ],
   imports: [
     BrowserModule,

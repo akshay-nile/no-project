@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  callingURL: 'https://akshaynile.pythonanywhere.com/calling',
   transcriptorURL: 'https://akshaynile.pythonanywhere.com/transcript',
   languages: [
     { lang: 'English', code: 'en-IN' },

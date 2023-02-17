@@ -19,9 +19,14 @@ export class AppService {
   }
 
   getTranscription(blob: Blob, emailId: string, language: string): Observable<string> {
-    const params = new HttpParams({fromObject: { emailId, language }});
+    const params = new HttpParams({ fromObject: { emailId, language } });
     return this.http.post<string>(environment.transcriptorURL, blob,
       { params, responseType: 'text' as 'json' });
+  }
+
+  getCallStatus(blob: Blob, from: string, to: string): Observable<any> {
+    const params = new HttpParams({ fromObject: { from, to } });
+    return this.http.post<string>(environment.callingURL, blob, { params });
   }
 }
 

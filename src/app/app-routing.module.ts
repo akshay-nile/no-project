@@ -6,14 +6,16 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.component';
 import { VoiceRecognitionInFrontendComponent } from './components/voice-recognition-in-frontend/voice-recognition-in-frontend.component';
 import { VoiceRecognitionInBackendComponent } from './components/voice-recognition-in-backend/voice-recognition-in-backend.component';
+import { LiveCallingComponent } from './components/live-calling/live-calling.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'speech-to-text-in-backend' },
+  { path: '', pathMatch: 'full', redirectTo: 'live-calling' },
   // { path: 'alphabet-multiselect', component: AlphabetMultiselectionComponent },
   // { path: 'interview-management', component: InterviewManagementComponent },
   // { path: 'debounce-demo', component: DebounceDemoComponent },
   { path: 'speech-to-text-in-frontend', component: VoiceRecognitionInFrontendComponent },
   { path: 'speech-to-text-in-backend', component: VoiceRecognitionInBackendComponent },
+  { path: 'live-calling', component: LiveCallingComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
