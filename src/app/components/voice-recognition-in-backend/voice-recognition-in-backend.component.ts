@@ -20,6 +20,7 @@ export class VoiceRecognitionInBackendComponent implements OnInit {
 
   languages = environment.languages;
   lang = 'en-IN';
+  userId = `user_${Math.round(Math.random()*1000)}@email.com`;
 
   constructor(private appService: AppService) { }
 
@@ -46,7 +47,7 @@ export class VoiceRecognitionInBackendComponent implements OnInit {
     this.recorder?.stop((blob) => {
       console.log(Math.round(blob.size / 1024), 'KB');
       this.status = 'PROCESSING';
-      this.appService.getTranscription(blob, 'user@email.com', this.lang).subscribe({
+      this.appService.getTranscription(blob, this.userId, this.lang).subscribe({
         next: text => {
           this.lines.push(text);
           this.status = 'STOPPED';
