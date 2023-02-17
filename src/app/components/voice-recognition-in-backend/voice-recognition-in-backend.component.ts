@@ -19,7 +19,7 @@ export class VoiceRecognitionInBackendComponent implements OnInit {
   status: SpeechRecognitionStatus = 'STOPPED';
 
   languages = environment.languages;
-  lang = 'en';
+  lang = 'en-IN';
 
   constructor(private appService: AppService) { }
 
