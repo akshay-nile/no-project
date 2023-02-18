@@ -39,21 +39,15 @@ export class LiveCallingComponent implements OnInit {
               this.recorder?.start();
             };
             this.recorder.start();
-          })
-          .catch(console.error);
-      } else {
-        this.recorder?.stop();
-        // this.recorder = undefined;
-      }
+          }).catch(console.error);
+      } else { this.recorder?.stop(); }
 
       this.responsePending = true;
       const blob = new Blob(this.data, { type: 'audio/webm' });
-      this.data = [];
       this.appService.getCallStatus(blob, this.username, this.selectedContact).subscribe({
         next: (response: any) => {
-          console.log(response);
-          this.availableContacts = response.available ?? [];
-          if (response.data) {
+          this.availableContacts = response?.available ?? [];
+          if (response?.data?.length) {
             const bytes = new Uint8Array(response.data.length);
             for (let i = 0; i < bytes.length; i++) { bytes[i] = response.data[i]; }
             const blob = new Blob([bytes], { type: 'audio/webm' });
@@ -61,10 +55,9 @@ export class LiveCallingComponent implements OnInit {
           }
           this.responsePending = false;
         },
-        error: (error: any) => {
-          this.responsePending = false;
-        }
+        error: () => this.responsePending = false
       });
+      this.data = [];
     });
   }
 
