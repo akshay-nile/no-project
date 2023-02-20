@@ -6,11 +6,10 @@ import { environment } from 'src/environments/environment';
 type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
 
 @Component({
-  selector: 'app-voice-recognition',
-  templateUrl: './voice-recognition-in-backend.component.html',
-  styleUrls: ['./voice-recognition-in-backend.component.scss']
+  selector: 'app-voice-recog-frontend',
+  templateUrl: './voice-recog-backend.component.html'
 })
-export class VoiceRecognitionInBackendComponent implements OnInit {
+export class VoiceRecogBackendComponent implements OnInit {
 
   stream!: MediaStream;
   recorder!: StereoAudioRecorder;
@@ -20,9 +19,17 @@ export class VoiceRecognitionInBackendComponent implements OnInit {
 
   languages = environment.languages;
   lang = 'en-IN';
-  userId = `user_${Math.round(Math.random()*1000)}@email.com`;
 
-  constructor(private appService: AppService) { }
+  userId: string;
+
+  constructor(private appService: AppService) {
+    const userId = localStorage.getItem('userId');
+    if (userId) { this.userId = JSON.parse(userId); }
+    else {
+      this.userId = `user_${Math.round(Math.random() * 1000)}@email.com`;
+      localStorage.setItem('userId', this.userId);
+    }
+  }
 
   ngOnInit(): void { }
 

@@ -6,10 +6,9 @@ type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
 
 @Component({
   selector: 'app-voice-recognition-in-frontend',
-  templateUrl: './voice-recognition-in-frontend.component.html',
-  styleUrls: ['./voice-recognition-in-frontend.component.scss']
+  templateUrl: './voice-recog-frontend.component.html'
 })
-export class VoiceRecognitionInFrontendComponent implements OnInit {
+export class VoiceRecogFrontendComponent implements OnInit {
 
   @ViewChild('mic') mic!: ElementRef;
 
@@ -19,7 +18,7 @@ export class VoiceRecognitionInFrontendComponent implements OnInit {
   status: SpeechRecognitionStatus = 'STOPPED';
 
   languages = environment.languages;
-  
+
   constructor() { }
 
   ngOnInit(): void {

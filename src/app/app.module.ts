@@ -10,10 +10,9 @@ import { InterviewManagementComponent } from './components/interview-management/
 import { PrimengModule } from './primeng.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.component';
-import { VoiceRecognitionInFrontendComponent } from './components/voice-recognition-in-frontend/voice-recognition-in-frontend.component';
-import { VoiceRecognitionInBackendComponent } from './components/voice-recognition-in-backend/voice-recognition-in-backend.component';
+import { VoiceRecogFrontendComponent } from './components/voice-recog-frontend/voice-recog-frontend.component';
+import { VoiceRecogBackendComponent } from './components/voice-recog-backend/voice-recog-backend.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LiveCallingComponent } from './components/live-calling/live-calling.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +21,8 @@ import { LiveCallingComponent } from './components/live-calling/live-calling.com
     InterviewManagementComponent,
     PageNotFoundComponent,
     DebounceDemoComponent,
-    VoiceRecognitionInFrontendComponent,
-    VoiceRecognitionInBackendComponent,
-    LiveCallingComponent
+    VoiceRecogFrontendComponent,
+    VoiceRecogBackendComponent
   ],
   imports: [
     BrowserModule,
