@@ -54,17 +54,14 @@ export class VoiceRecogBackendComponent {
     this.recorder?.stop((blob) => {
       console.log(Math.round(blob.size / 1024), 'KB');
       this.status = 'PROCESSING';
+      clearTimeout(this.timeout);
       this.appService.getTranscription(blob, this.userId, this.lang).subscribe({
         next: text => {
           this.lines.push(text);
           this.status = 'STOPPED';
-          clearTimeout(this.timeout);
         },
-        error: () => {
-          this.status = 'STOPPED';
-          clearTimeout(this.timeout);
-        }
-      });
+        error: () => this.status = 'STOPPED'
+      );
       this.stream.getAudioTracks().forEach(track => track.stop());
     });
   }
