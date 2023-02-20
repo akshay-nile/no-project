@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StereoAudioRecorder } from 'recordrtc';
 import { AppService } from 'src/app/services/app.service';
 import { environment } from 'src/environments/environment';
@@ -9,7 +9,7 @@ type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
   selector: 'app-voice-recog-frontend',
   templateUrl: './voice-recog-backend.component.html'
 })
-export class VoiceRecogBackendComponent implements OnInit {
+export class VoiceRecogBackendComponent {
 
   stream!: MediaStream;
   recorder!: StereoAudioRecorder;
@@ -26,12 +26,10 @@ export class VoiceRecogBackendComponent implements OnInit {
     const userId = localStorage.getItem('userId');
     if (userId) { this.userId = JSON.parse(userId); }
     else {
-      this.userId = `user_${Math.round(Math.random() * 1000)}@email.com`;
-      localStorage.setItem('userId', this.userId);
+      this.userId = `user_${String(Math.round(Math.random() * 1000)).padStart(4, '0')}`;
+      localStorage.setItem('userId', JSON.stringify(this.userId));
     }
   }
-
-  ngOnInit(): void { }
 
   startRecording(): void {
     navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } })

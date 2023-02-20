@@ -19,7 +19,7 @@ def delete_after_delay(filename):
 @app.route('/transcript', methods=['POST'])
 @cross_origin()
 def transcript():
-    filename = request.args.get('emailId') + '.wav'
+    filename = request.args.get('userId') + '.wav'
     language = request.args.get('language') or 'en'
 
     try:

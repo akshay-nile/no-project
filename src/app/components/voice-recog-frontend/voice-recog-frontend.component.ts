@@ -26,7 +26,7 @@ export class VoiceRecogFrontendComponent implements OnInit {
   }
 
   initSpeechRecognition(): void {
-    this.speechRecognition.lang = 'en';
+    this.speechRecognition.lang = 'en-IN';
     this.speechRecognition.onspeechend = () => this.mic.nativeElement.click();
     this.speechRecognition.onresult = (event: any) => {
       const lastIndex = event?.results.length - 1;
