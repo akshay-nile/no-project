@@ -42,7 +42,7 @@ export class VoiceRecogBackendComponent {
           sampleRate: 44100,
           numberOfAudioChannels: 1
         });
-        this.status = 'LISTENING'
+        this.status = 'LISTENING';
         this.recorder?.record();
         this.timeout = setTimeout(() => this.stopRecording(), 15000);
       })
@@ -61,7 +61,7 @@ export class VoiceRecogBackendComponent {
           this.status = 'STOPPED';
         },
         error: () => this.status = 'STOPPED'
-      );
+      });
       this.stream.getAudioTracks().forEach(track => track.stop());
     });
   }
