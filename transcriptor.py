@@ -10,7 +10,7 @@ recognizer = Recognizer()
 
 def delete_after_delay(filename):
     try:
-        time.sleep(1)
+        time.sleep(2)
         os.remove(filename)
     except Exception as e:
         print(e)
