@@ -1,14 +1,21 @@
-<div class="container mt-4">
+<div class="container-flued mt-5">
     <div class="d-flex flex-column justify-content-center align-items-center w-100">
-        <h3 class="mx-2" *ngFor="let line of lines">{{line | json}}</h3>
-        <div class="my-4">
+        <h3 class="mx-2">{{text | json}}</h3>
+        <div class="my-5 mb-4">
             <button pButton pRipple type="button" class="btn-lg mx-2"
                 [label]="status === 'STOPPED' ? 'Speak' : status === 'PROCESSING'? 'Processing' : 'Recording'"
                 [icon]="status === 'STOPPED' ? 'pi pi-microphone' : status === 'PROCESSING'? 'pi pi-spin pi-spinner' : 'pi pi-stop-circle'"
                 (click)="status === 'STOPPED' ? startRecording() : stopRecording()">
             </button>
-            <p-dropdown styleClass="mx-2" pRipple [options]="languages" optionLabel="lang" optionValue="code"
-                (onChange)="lang = $event.value">
+        </div>
+        <div class="mt-2 mb-3">
+            <span class="p-input-icon-left">
+                <i class="pi pi-globe ms-2"></i>
+                <input type="text" pInputText pRipple placeholder="Transcriptor API" class="mx-2"
+                    [(ngModel)]="configs.transcriptor">
+            </span>
+            <p-dropdown class="mx-2" pRipple [options]="languages" optionLabel="lang" optionValue="code"
+                [(ngModel)]="configs.language">
             </p-dropdown>
         </div>
     </div>

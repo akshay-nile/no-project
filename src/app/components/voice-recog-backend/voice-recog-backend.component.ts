@@ -1,39 +1,51 @@
 import { Component } from '@angular/core';
 import { StereoAudioRecorder } from 'recordrtc';
 import { AppService } from 'src/app/services/app.service';
-import { environment } from 'src/environments/environment';
 
-type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
+type SpeechRecognitionStatus = 'STOPPED' | 'RECORDING' | 'PROCESSING';
 
 @Component({
-  selector: 'app-voice-recog-frontend',
+  selector: 'app-voice-recog-backend',
   templateUrl: './voice-recog-backend.component.html'
 })
 export class VoiceRecogBackendComponent {
 
   stream!: MediaStream;
   recorder!: StereoAudioRecorder;
+  status: SpeechRecognitionStatus = 'STOPPED';
   timeout: any;
 
-  lines: string[] = [];
-  status: SpeechRecognitionStatus = 'STOPPED';
+  text = '';
 
-  languages = environment.languages;
-  lang = 'en-IN';
+  languages = [
+    { lang: 'English', code: 'en' },
+    { lang: 'English IN', code: 'en-IN' },
+    { lang: 'English US', code: 'en-US' },
+    { lang: 'English UK', code: 'en-UK' }
+  ];
 
-  userId: string;
+  configs: any = {
+    language: 'en-IN',
+    transcriptor: 'http://127.0.0.1:5000/transcript'
+  };
 
   constructor(private appService: AppService) {
     const userId = localStorage.getItem('userId')?.trim();
-    if (userId) { this.userId = JSON.parse(userId); }
+    if (userId) { this.configs['userId'] = JSON.parse(userId); }
     else {
-      this.userId = `user_${String(Math.round(Math.random() * 1000)).padStart(4, '0')}`;
-      localStorage.setItem('userId', JSON.stringify(this.userId));
+      this.configs['userId'] = `user_${String(Math.round(Math.random() * 1000)).padStart(4, '0')}`;
+      localStorage.setItem('userId', JSON.stringify(this.configs.userId));
     }
   }
 
   startRecording(): void {
-    navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } })
+    navigator.mediaDevices.getUserMedia({
+      audio: {
+        noiseSuppression: true,
+        echoCancellation: true,
+        suppressLocalAudioPlayback: true
+      }
+    })
       .then(stream => {
         this.stream = stream;
         this.recorder = new StereoAudioRecorder(stream, {
@@ -44,7 +56,7 @@ export class VoiceRecogBackendComponent {
           numberOfAudioChannels: 1,
           disableLogs: true
         });
-        this.status = 'LISTENING';
+        this.status = 'RECORDING';
         this.recorder?.record();
         this.timeout = setTimeout(() => this.stopRecording(), 15000);
       })
@@ -52,15 +64,15 @@ export class VoiceRecogBackendComponent {
   }
 
   stopRecording(): void {
-    if (this.status !== 'LISTENING') { return; }
+    if (this.status !== 'RECORDING') { return; }
     clearTimeout(this.timeout);
-    this.recorder?.stop((blob) => {
+    this.recorder?.stop(blob => {
       console.log(Math.round(blob.size / 1024), 'KB');
       this.status = 'PROCESSING';
       clearTimeout(this.timeout);
-      this.appService.getTranscription(blob, this.userId, this.lang).subscribe({
+      this.appService.getTranscription(blob, this.configs).subscribe({
         next: text => {
-          this.lines.push(text);
+          this.text = text;
           this.status = 'STOPPED';
         },
         error: () => this.status = 'STOPPED'

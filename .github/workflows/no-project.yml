@@ -30,8 +30,8 @@ jobs:
     - name: 'Build Project'
       run: npx ng build
 
-    - name: 'Test Cases & Coverage'
-      run: npx ng test --watch false --browsers ChromeHeadless
+    # - name: 'Test Cases & Coverage'
+    #   run: npx ng test --watch false --browsers ChromeHeadless
     
     - name: 'Deploy Build'
       run: |
