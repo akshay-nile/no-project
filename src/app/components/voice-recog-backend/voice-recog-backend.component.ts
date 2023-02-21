@@ -44,7 +44,7 @@ export class VoiceRecogBackendComponent {
           numberOfAudioChannels: 1,
           disableLogs: true
         });
-        this.status = 'LISTENING'
+        this.status = 'LISTENING';
         this.recorder?.record();
         this.timeout = setTimeout(() => this.stopRecording(), 15000);
       })
@@ -57,6 +57,7 @@ export class VoiceRecogBackendComponent {
     this.recorder?.stop((blob) => {
       console.log(Math.round(blob.size / 1024), 'KB');
       this.status = 'PROCESSING';
+      clearTimeout(this.timeout);
       this.appService.getTranscription(blob, this.userId, this.lang).subscribe({
         next: text => {
           this.lines.push(text);
