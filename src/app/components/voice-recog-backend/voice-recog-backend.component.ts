@@ -10,7 +10,7 @@ type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
   templateUrl: './voice-recog-backend.component.html'
 })
 export class VoiceRecogBackendComponent {
-  
+
   stream!: MediaStream;
   recorder!: StereoAudioRecorder;
   timeout: any;
@@ -40,7 +40,9 @@ export class VoiceRecogBackendComponent {
           type: 'audio',
           mimeType: 'audio/wav',
           sampleRate: 44100,
-          numberOfAudioChannels: 1
+          desiredSampRate: 16000,
+          numberOfAudioChannels: 1,
+          disableLogs: true
         });
         this.status = 'LISTENING'
         this.recorder?.record();
@@ -51,6 +53,7 @@ export class VoiceRecogBackendComponent {
 
   stopRecording(): void {
     if (this.status !== 'LISTENING') { return; }
+    clearTimeout(this.timeout);
     this.recorder?.stop((blob) => {
       console.log(Math.round(blob.size / 1024), 'KB');
       this.status = 'PROCESSING';
@@ -58,14 +61,11 @@ export class VoiceRecogBackendComponent {
         next: text => {
           this.lines.push(text);
           this.status = 'STOPPED';
-          clearTimeout(this.timeout);
         },
-        error: () => {
-          this.status = 'STOPPED';
-          clearTimeout(this.timeout);
-        }
+        error: () => this.status = 'STOPPED'
       });
       this.stream.getAudioTracks().forEach(track => track.stop());
+      this.recorder.clearRecordedData();
     });
   }
 
