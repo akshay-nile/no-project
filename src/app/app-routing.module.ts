@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InterviewManagementComponent } from './components/interview-management/interview-management.component';
-import { AlphabetMultiselectionComponent } from './components/alphabet-multiselection/alphabet-multiselection.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { DebounceDemoComponent } from './components/debounce-demo/debounce-demo.component';
-import { VoiceRecogFrontendComponent } from './components/voice-recog-frontend/voice-recog-frontend.component';
 import { VoiceRecogBackendComponent } from './components/voice-recog-backend/voice-recog-backend.component';
+import { VoiceRecogFrontendComponent } from './components/voice-recog-frontend/voice-recog-frontend.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'speech-to-text-in-backend' },

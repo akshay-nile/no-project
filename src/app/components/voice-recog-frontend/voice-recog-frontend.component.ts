@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
@@ -17,7 +16,14 @@ export class VoiceRecogFrontendComponent implements OnInit {
   lines: string[] = [];
   status: SpeechRecognitionStatus = 'STOPPED';
 
-  languages = environment.languages;
+  languages = [
+    { lang: 'English', code: 'en' },
+    { lang: 'Hindi', code: 'hi' },
+    { lang: 'Marathi', code: 'mr' },
+    { lang: 'Telugu', code: 'te' },
+    { lang: 'Tamil', code: 'ta' },
+    { lang: 'Urdu', code: 'ur' }
+  ];
 
   constructor() { }
 
@@ -26,7 +32,7 @@ export class VoiceRecogFrontendComponent implements OnInit {
   }
 
   initSpeechRecognition(): void {
-    this.speechRecognition.lang = 'en-IN';
+    this.speechRecognition.lang = 'en';
     this.speechRecognition.onspeechend = () => this.mic.nativeElement.click();
     this.speechRecognition.onresult = (event: any) => {
       const lastIndex = event?.results.length - 1;

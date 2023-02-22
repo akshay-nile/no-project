@@ -7,7 +7,7 @@
                 (click)="status === 'STOPPED' ? startListening() : stopListening()">
             </button>
             <p-dropdown styleClass="mx-2" pRipple [options]="languages" optionLabel="lang" optionValue="code"
-                (onChange)="speechRecognition.lang = $event.value">
+                [(ngModel)]="speechRecognition.lang">
             </p-dropdown>
         </div>
     </div>

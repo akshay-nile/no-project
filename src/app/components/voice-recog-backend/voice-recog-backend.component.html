@@ -8,7 +8,7 @@
                 (click)="status === 'STOPPED' ? startRecording() : stopRecording()">
             </button>
             <p-dropdown styleClass="mx-2" pRipple [options]="languages" optionLabel="lang" optionValue="code"
-                (onChange)="lang = $event.value">
+                [(ngModel)]="language">
             </p-dropdown>
         </div>
     </div>

@@ -20,7 +20,7 @@ export class AppService {
 
   getTranscription(blob: Blob, userId: string, language: string): Observable<string> {
     const params = new HttpParams({ fromObject: { userId, language } });
-    return this.http.post<string>(environment.transcriptorURL, blob,
+    return this.http.post<string>(environment.transcriptionURL, blob,
       { params, responseType: 'text' as 'json' });
   }
 }
