@@ -62,7 +62,7 @@ export class VoiceRecogFrontendComponent implements OnInit {
 
   speak(text: string): void {
     let speakData = new SpeechSynthesisUtterance();
-    speakData.rate = this.speechRecognition.lang === 'en' ? 0.7 : 1; // From 0 to 2
+    speakData.rate = 0.9; // From 0 to 2
     speakData.pitch = 0.7; // From 0.1 to 10
     speakData.lang = this.speechRecognition.lang + '-IN';
     speakData.text = text;
