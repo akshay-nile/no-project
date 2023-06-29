@@ -5,7 +5,7 @@ import { VoiceRecogBackendComponent } from './components/voice-recog-backend/voi
 import { VoiceRecogFrontendComponent } from './components/voice-recog-frontend/voice-recog-frontend.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'speech-to-text-in-backend' },
+  { path: '', pathMatch: 'full', redirectTo: 'speech-to-text-in-frontend' },
   // { path: 'alphabet-multiselect', component: AlphabetMultiselectionComponent },
   // { path: 'debounce-demo', component: DebounceDemoComponent },
   { path: 'speech-to-text-in-frontend', component: VoiceRecogFrontendComponent },

@@ -56,7 +56,17 @@ export class VoiceRecogFrontendComponent implements OnInit {
     setTimeout(() => {
       this.speechRecognition.stop();
       this.status = 'STOPPED';
+      this.speak(this.lines[this.lines.length - 1]); // speak-out the transcripted text
     }, 2000);
+  }
+
+  speak(text: string): void {
+    let speakData = new SpeechSynthesisUtterance();
+    speakData.rate = this.speechRecognition.lang === 'en' ? 0.7 : 1; // From 0 to 2
+    speakData.pitch = 0.7; // From 0.1 to 10
+    speakData.lang = this.speechRecognition.lang + '-IN';
+    speakData.text = text;
+    speechSynthesis.speak(speakData);
   }
 
 }
