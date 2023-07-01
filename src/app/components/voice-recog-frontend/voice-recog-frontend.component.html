@@ -10,13 +10,16 @@
                         (onClick)="playingIndex === i ? stopSpeaking() : startSpeaking(i)">
                     </p-button>
                 </ng-container>
+                <ng-container *ngIf="!line.finished">
+                    <div class="mx-auto"><i class="pi pi-spin pi-spinner" [style]="{fontSize: '1.5em'}"></i></div>
+                </ng-container>
             </li>
         </ul>
 
         <div class="my-4">
-            <button #mic pButton pRipple type="button" class="btn-lg mx-2" label="{{status | titlecase}}"
-                [icon]="status === 'STOPPED' ? 'pi pi-microphone' : status === 'PROCESSING'? 'pi pi-spin pi-spinner' : 'pi pi-stop-circle'"
-                (click)="status === 'STOPPED' ? startListening() : stopListening()">
+            <button pButton pRipple type="button" class="btn-lg mx-2" label="{{status | titlecase}}"
+                [icon]="status === 'STOPPED' ? 'pi pi-microphone' : 'pi pi-stop-circle'"
+                (click)="status === 'STOPPED' ? startListening() : status === 'LISTENING' ? stopListening(true) : null">
             </button>
             <p-dropdown styleClass="ms-2" pRipple [options]="languages" optionLabel="lang" optionValue="code"
                 [(ngModel)]="speechRecognition.lang">
