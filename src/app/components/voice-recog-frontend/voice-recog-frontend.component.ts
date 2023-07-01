@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
 type SpeechRecognitionStatus = 'STOPPED' | 'LISTENING' | 'PROCESSING';
-type Transcript = { text: string, lang: string };
+type Transcript = { text: string, lang: string, finished: boolean };
 
 @Component({
   selector: 'app-voice-recognition-in-frontend',
@@ -44,7 +44,10 @@ export class VoiceRecogFrontendComponent implements OnInit {
       const lastIndex = event?.results.length - 1;
       const final = event?.results[lastIndex]?.isFinal;
       const transcript = event?.results[lastIndex][0]?.transcript;
-      if (final) { this.lines[this.lines.length - 1].text += transcript; }
+      if (final) {
+        this.lines[this.lines.length - 1].text += transcript;
+        this.lines[this.lines.length - 1].finished = true;
+      }
       if (!this.status) { this.status = 'STOPPED'; }
     };
   }
@@ -60,7 +63,7 @@ export class VoiceRecogFrontendComponent implements OnInit {
 
   startListening(): void {
     if (this.status !== 'STOPPED') { return; }
-    this.lines.push({ text: '', lang: this.speechRecognition.lang });
+    this.lines.push({ text: '', lang: this.speechRecognition.lang, finished: false });
     this.speechRecognition.start();
     this.status = 'LISTENING';
   }
