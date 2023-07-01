@@ -1,6 +1,12 @@
 <div class="container mt-4">
     <div class="d-flex flex-column justify-content-center align-items-center w-100">
-        <h3 class="mx-2" *ngFor="let line of lines">{{line | json}}</h3>
+        <div *ngFor="let line of lines; index as i" class="d-flex justify-content-center align-items-center">
+            <h3 class="mx-2">{{line.text | json}}</h3>
+            <p-button type="button" [icon]="playingIndex === i ? 'pi pi-stop' :'pi pi-play'" [style]="{zoom: 0.8}"
+                styleClass="ms-2 p-button-lg p-button-rounded p-button-outlined"
+                (onClick)="playingIndex === i ? stopSpeaking() : startSpeaking(i)">
+            </p-button>
+        </div>
         <div class="my-4">
             <button #mic pButton pRipple type="button" class="btn-lg mx-2" label="{{status | titlecase}}"
                 [icon]="status === 'STOPPED' ? 'pi pi-microphone' : status === 'PROCESSING'? 'pi pi-spin pi-spinner' : 'pi pi-stop-circle'"
